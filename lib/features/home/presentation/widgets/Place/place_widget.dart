@@ -1,4 +1,6 @@
 import 'package:birthday_app/common/app_images/app_images.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -22,6 +24,10 @@ class PlaceWidget extends StatelessWidget {
         Placeholder(
           fallbackHeight: 246.w,
           child: YandexMap(
+            gestureRecognizers: {
+              Factory<OneSequenceGestureRecognizer>(
+                  () => EagerGestureRecognizer())
+            },
             mapObjects: [
               PlacemarkMapObject(
                 mapId: const MapObjectId("Просто Лес"),
