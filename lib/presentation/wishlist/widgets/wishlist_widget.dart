@@ -65,10 +65,18 @@ class _WishListItemWidget extends StatelessWidget {
                 wish.name,
                 style: AppTextStyles.subTitleStyle,
               ),
-              Text(
-                wish.url,
-                style: AppTextStyles.contentStyle.copyWith(
-                  decoration: TextDecoration.underline,
+              InkWell(
+                onTap: () {
+                  // final url = Uri.tryParse(wish.url);
+                  // if (url != null) {
+                  //   launchUrl(url);
+                  // }
+                },
+                child: Text(
+                  wish.url,
+                  style: AppTextStyles.contentStyle.copyWith(
+                    decoration: TextDecoration.underline,
+                  ),
                 ),
               ),
             ],
@@ -97,9 +105,7 @@ class _WishListItemWidget extends StatelessWidget {
           CustomShowDialogButton(
             text: "Вы хотите удалить из списка: ${wish.name}?",
             onPressed: () {
-              context
-                  .read<WishlistBloc>()
-                  .add(WishlistEvent.onDelete(wish.id!));
+              context.read<WishlistBloc>().add(WishlistEvent.onDelete(wish));
               Navigator.of(context).pop();
             },
           ),
