@@ -1,0 +1,11 @@
+{
+    "id": 3,
+    "name": "Морепродукты",
+    "image": "https://avatars.dzeninfra.ru/get-zen_doc/1857554/pub_5eb954959f339d116671abe5_5ec28b1e1ad73a7902ea4d01/scale_1200",
+    "ingredients": [
+        "Креветка",
+        "Устрица",
+        "Лимон",
+        "Огурец"
+    ]
+}

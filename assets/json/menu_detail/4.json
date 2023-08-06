@@ -1,0 +1,15 @@
+{
+    "id": 4,
+    "name": "Свежие фрукты",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJiMuptgz_x_i2Y3vhkmWt1CSfnlUKgyMGfg&usqp=CAU",
+    "ingredients": [
+        "Виноград",
+        "Арбуз",
+        "Апельсин",
+        "Банан",
+        "Киви",
+        "Ананас",
+        "Гранат",
+        "Мандарин"
+    ]
+}

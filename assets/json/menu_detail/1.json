@@ -1,0 +1,11 @@
+{
+    "id": 1,
+    "name": "Сырная тарелка",
+    "image": "https://www.kar-lunch.ru/storage/dishes/resized/802_572x380.PNG",
+    "ingredients": [
+        "Сыр",
+        "Грецкий орех",
+        "Виноград",
+        "Соус"
+    ]
+}
