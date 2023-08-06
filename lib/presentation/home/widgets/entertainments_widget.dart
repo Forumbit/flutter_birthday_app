@@ -1,49 +1,48 @@
-import 'package:birthday_app/features/home/domain/entities/entertainment_entity.dart';
-import 'package:birthday_app/features/home/presentation/bloc/home_bloc.dart';
-import 'package:birthday_app/features/home/presentation/pages/animation_page.dart';
+import 'package:birthday_app/common/app_text_styles.dart';
+import 'package:birthday_app/domain/entities/entertainment_entity.dart';
+import 'package:birthday_app/presentation/home/pages/animation_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class EntertainmentsWidget extends StatelessWidget {
+class EntertainmentsWidget extends StatefulWidget {
   const EntertainmentsWidget({super.key});
+
+  @override
+  State<EntertainmentsWidget> createState() => _EntertainmentsWidgetState();
+}
+
+class _EntertainmentsWidgetState extends State<EntertainmentsWidget> {
+  var entertainmentsToggle = false;
 
   @override
   Widget build(BuildContext context) {
     return Builder(
       builder: (BuildContext context) {
         final entertainments = EntertainmentData.entertainmentsData;
-        final entertainmentsIsOpen =
-            context.select((HomeBloc bloc) => bloc.state.entertainmentsIsOpen);
         return Column(
           children: [
             Text(
               'Развлечения',
-              style: TextStyle(
-                fontFamily: 'Yeseva One',
-                fontSize: 24.sp,
-              ),
+              style: AppTextStyles.titleStyle,
             ),
             SizedBox(height: 8.h),
             ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: entertainmentsIsOpen ? 2 : 1,
+              itemCount: entertainmentsToggle ? 2 : 1,
               itemBuilder: (BuildContext context, int index) {
                 return _EntertainmentItem(entertainment: entertainments[index]);
               },
             ),
             SizedBox(width: 8.h),
             InkWell(
-              onTap: () {
-                BlocProvider.of<HomeBloc>(context)
-                    .add(HomeEntertainmentsToggleEvent(entertainmentsIsOpen));
-              },
+              onTap: () => setState(() {
+                entertainmentsToggle = !entertainmentsToggle;
+              }),
               child: Text(
-                entertainmentsIsOpen ? 'Свернуть ▲' : 'Развернуть ▼',
-                style: TextStyle(
+                entertainmentsToggle ? 'Свернуть ▲' : 'Развернуть ▼',
+                style: AppTextStyles.contentStyle.copyWith(
                   decoration: TextDecoration.underline,
-                  fontSize: 14.sp,
                 ),
               ),
             ),
@@ -90,7 +89,12 @@ class _EntertainmentItem extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 8.h),
         child: Row(
           children: [
-            Image.asset(entertainment.icon),
+            Image.asset(
+              entertainment.icon,
+              width: 42.w,
+              height: 42.w,
+              fit: BoxFit.cover,
+            ),
             SizedBox(width: 12.w),
             Expanded(
               child: Column(
@@ -98,18 +102,13 @@ class _EntertainmentItem extends StatelessWidget {
                 children: [
                   Text(
                     entertainment.name,
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: AppTextStyles.subTitleStyle,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
                     entertainment.description,
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                    ),
+                    style: AppTextStyles.contentStyle,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),

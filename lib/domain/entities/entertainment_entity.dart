@@ -1,4 +1,4 @@
-import 'package:birthday_app/common/app_images/app_images.dart';
+import 'package:birthday_app/common/app_images.dart';
 
 class EntertainmentEntity {
   final int id;
@@ -14,6 +14,8 @@ class EntertainmentEntity {
   });
 }
 
+
+// for home page
 abstract class EntertainmentData {
   static final entertainmentsData = <EntertainmentEntity>[
     EntertainmentEntity(
@@ -24,6 +26,18 @@ abstract class EntertainmentData {
     ),
     EntertainmentEntity(
       id: 1,
+      name: 'Бассейн',
+      description: 'Два бассейна с подогревом',
+      icon: AppImages.pool,
+    ),
+    EntertainmentEntity(
+      id: 3,
+      name: 'Настольные игры',
+      description: 'Мафия, уно, домино, экивоки и другие',
+      icon: AppImages.game,
+    ),
+    EntertainmentEntity(
+      id: 4,
       name: 'Бассейн',
       description: 'Два бассейна с подогревом',
       icon: AppImages.pool,
