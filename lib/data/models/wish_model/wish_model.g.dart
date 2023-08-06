@@ -17,18 +17,23 @@ const WishModelSchema = CollectionSchema(
   name: r'WishModel',
   id: 9170499595750756332,
   properties: {
-    r'isBooked': PropertySchema(
+    r'documentId': PropertySchema(
       id: 0,
+      name: r'documentId',
+      type: IsarType.string,
+    ),
+    r'isBooked': PropertySchema(
+      id: 1,
       name: r'isBooked',
       type: IsarType.bool,
     ),
     r'name': PropertySchema(
-      id: 1,
+      id: 2,
       name: r'name',
       type: IsarType.string,
     ),
     r'url': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'url',
       type: IsarType.string,
     )
@@ -53,6 +58,12 @@ int _wishModelEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
+  {
+    final value = object.documentId;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   bytesCount += 3 + object.name.length * 3;
   bytesCount += 3 + object.url.length * 3;
   return bytesCount;
@@ -64,9 +75,10 @@ void _wishModelSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeBool(offsets[0], object.isBooked);
-  writer.writeString(offsets[1], object.name);
-  writer.writeString(offsets[2], object.url);
+  writer.writeString(offsets[0], object.documentId);
+  writer.writeBool(offsets[1], object.isBooked);
+  writer.writeString(offsets[2], object.name);
+  writer.writeString(offsets[3], object.url);
 }
 
 WishModel _wishModelDeserialize(
@@ -76,10 +88,11 @@ WishModel _wishModelDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = WishModel();
+  object.documentId = reader.readStringOrNull(offsets[0]);
   object.id = id;
-  object.isBooked = reader.readBool(offsets[0]);
-  object.name = reader.readString(offsets[1]);
-  object.url = reader.readString(offsets[2]);
+  object.isBooked = reader.readBool(offsets[1]);
+  object.name = reader.readString(offsets[2]);
+  object.url = reader.readString(offsets[3]);
   return object;
 }
 
@@ -91,10 +104,12 @@ P _wishModelDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readBool(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 1:
-      return (reader.readString(offset)) as P;
+      return (reader.readBool(offset)) as P;
     case 2:
+      return (reader.readString(offset)) as P;
+    case 3:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -102,7 +117,7 @@ P _wishModelDeserializeProp<P>(
 }
 
 Id _wishModelGetId(WishModel object) {
-  return object.id;
+  return object.id ?? Isar.autoIncrement;
 }
 
 List<IsarLinkBase<dynamic>> _wishModelGetLinks(WishModel object) {
@@ -192,8 +207,175 @@ extension WishModelQueryWhere
 
 extension WishModelQueryFilter
     on QueryBuilder<WishModel, WishModel, QFilterCondition> {
+  QueryBuilder<WishModel, WishModel, QAfterFilterCondition> documentIdIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'documentId',
+      ));
+    });
+  }
+
+  QueryBuilder<WishModel, WishModel, QAfterFilterCondition>
+      documentIdIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'documentId',
+      ));
+    });
+  }
+
+  QueryBuilder<WishModel, WishModel, QAfterFilterCondition> documentIdEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'documentId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<WishModel, WishModel, QAfterFilterCondition>
+      documentIdGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'documentId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<WishModel, WishModel, QAfterFilterCondition> documentIdLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'documentId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<WishModel, WishModel, QAfterFilterCondition> documentIdBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'documentId',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<WishModel, WishModel, QAfterFilterCondition>
+      documentIdStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'documentId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<WishModel, WishModel, QAfterFilterCondition> documentIdEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'documentId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<WishModel, WishModel, QAfterFilterCondition> documentIdContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'documentId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<WishModel, WishModel, QAfterFilterCondition> documentIdMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'documentId',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<WishModel, WishModel, QAfterFilterCondition>
+      documentIdIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'documentId',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<WishModel, WishModel, QAfterFilterCondition>
+      documentIdIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'documentId',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<WishModel, WishModel, QAfterFilterCondition> idIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'id',
+      ));
+    });
+  }
+
+  QueryBuilder<WishModel, WishModel, QAfterFilterCondition> idIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'id',
+      ));
+    });
+  }
+
   QueryBuilder<WishModel, WishModel, QAfterFilterCondition> idEqualTo(
-      Id value) {
+      Id? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'id',
@@ -203,7 +385,7 @@ extension WishModelQueryFilter
   }
 
   QueryBuilder<WishModel, WishModel, QAfterFilterCondition> idGreaterThan(
-    Id value, {
+    Id? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -216,7 +398,7 @@ extension WishModelQueryFilter
   }
 
   QueryBuilder<WishModel, WishModel, QAfterFilterCondition> idLessThan(
-    Id value, {
+    Id? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -229,8 +411,8 @@ extension WishModelQueryFilter
   }
 
   QueryBuilder<WishModel, WishModel, QAfterFilterCondition> idBetween(
-    Id lower,
-    Id upper, {
+    Id? lower,
+    Id? upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -523,6 +705,18 @@ extension WishModelQueryLinks
     on QueryBuilder<WishModel, WishModel, QFilterCondition> {}
 
 extension WishModelQuerySortBy on QueryBuilder<WishModel, WishModel, QSortBy> {
+  QueryBuilder<WishModel, WishModel, QAfterSortBy> sortByDocumentId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'documentId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<WishModel, WishModel, QAfterSortBy> sortByDocumentIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'documentId', Sort.desc);
+    });
+  }
+
   QueryBuilder<WishModel, WishModel, QAfterSortBy> sortByIsBooked() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isBooked', Sort.asc);
@@ -562,6 +756,18 @@ extension WishModelQuerySortBy on QueryBuilder<WishModel, WishModel, QSortBy> {
 
 extension WishModelQuerySortThenBy
     on QueryBuilder<WishModel, WishModel, QSortThenBy> {
+  QueryBuilder<WishModel, WishModel, QAfterSortBy> thenByDocumentId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'documentId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<WishModel, WishModel, QAfterSortBy> thenByDocumentIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'documentId', Sort.desc);
+    });
+  }
+
   QueryBuilder<WishModel, WishModel, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
@@ -613,6 +819,13 @@ extension WishModelQuerySortThenBy
 
 extension WishModelQueryWhereDistinct
     on QueryBuilder<WishModel, WishModel, QDistinct> {
+  QueryBuilder<WishModel, WishModel, QDistinct> distinctByDocumentId(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'documentId', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<WishModel, WishModel, QDistinct> distinctByIsBooked() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'isBooked');
@@ -639,6 +852,12 @@ extension WishModelQueryProperty
   QueryBuilder<WishModel, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
+    });
+  }
+
+  QueryBuilder<WishModel, String?, QQueryOperations> documentIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'documentId');
     });
   }
 

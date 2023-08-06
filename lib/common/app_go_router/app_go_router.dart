@@ -5,7 +5,6 @@ import 'package:birthday_app/bloc/wishlist/wishlist_bloc.dart';
 import 'package:birthday_app/common/app_go_router/go_router_names.dart';
 import 'package:birthday_app/common/app_go_router/not_found_page.dart';
 import 'package:birthday_app/di/di_container.dart';
-import 'package:birthday_app/di/guests_list_container.dart';
 import 'package:birthday_app/presentation/home/pages/home_page.dart';
 import 'package:birthday_app/presentation/menu_detail/pages/menu_detail_page.dart';
 import 'package:birthday_app/presentation/quests_list/pages/guests_list_page.dart';
@@ -32,7 +31,7 @@ abstract class AppGoRouter {
         path: AppGoRouterNames.guestsList,
         builder: (context, state) => BlocProvider(
           create: (context) => GuestsListBloc(
-            guestRepository: GuestsListContainer.getGuestRepository(),
+            guestRepository: DIContainer.getGuestRepository(),
           )..add(const GuestsListEvent.started()),
           child: const QuestsListPage(),
         ),

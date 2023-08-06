@@ -1,15 +1,16 @@
 import 'package:birthday_app/common/app_go_router/app_go_router.dart';
 import 'package:birthday_app/common/theme/app_themes.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await Hive.initFlutter();
-
+  await Firebase.initializeApp();
   AndroidYandexMap.useAndroidViewSurface = false;
   runApp(const MyApp());
 }

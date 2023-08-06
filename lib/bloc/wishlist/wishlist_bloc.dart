@@ -1,7 +1,9 @@
 import 'package:birthday_app/data/datasources/wish_local_data_source.dart';
+import 'package:birthday_app/data/datasources/wish_remote_data_source.dart';
 import 'package:birthday_app/data/models/wish_model/wish_model.dart';
 import 'package:birthday_app/data/repository/wish_repository.dart';
 import 'package:birthday_app/domain/entities/wish_entity.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:isar/isar.dart';
@@ -18,7 +20,7 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
         started: () => init(emit),
         onCreate: (WishEntity wishEntity) async => onCreate(wishEntity, emit),
         onUpdate: (WishEntity wishEntity) async => onUpdate(wishEntity, emit),
-        onDelete: (int id) async => onDelete(id, emit),
+        onDelete: (WishEntity wishEntity) async => onDelete(wishEntity, emit),
       ),
     );
   }
@@ -33,10 +35,12 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
     final isar = await Isar.open(
       [WishModelSchema],
       directory: dir.path,
-    );
+    ); 
     _isar = isar;
     _wishRepositoryImpl = WishRepositoryImpl(
       wishLocalDataSource: WishLocalDataSourceImpl(isar: _isar),
+      wishRemoteDataSource:
+          WishRemoteDataSourceImpl(FirebaseFirestore.instance),
     );
     await get(emit);
   }
@@ -68,10 +72,10 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
   }
 
   Future<void> onDelete(
-    int id,
+    WishEntity wishEntity,
     Emitter<WishlistState> emit,
   ) async {
-    await _wishRepositoryImpl.delete(id);
+    await _wishRepositoryImpl.delete(wishEntity);
     await get(emit);
   }
 

@@ -54,6 +54,7 @@ abstract class TextControllerMapper {
   ) {
     return WishEntity(
       id: entity?.id,
+      documentId: entity?.documentId,
       name: controllers[WishTextControllerNames.name]!.text,
       url: controllers[WishTextControllerNames.url]!.text,
       isBooked: entity?.isBooked ?? false,

@@ -21,7 +21,7 @@ mixin _$WishlistEvent {
     required TResult Function() started,
     required TResult Function(WishEntity wishlistEntity) onCreate,
     required TResult Function(WishEntity wishlistEntity) onUpdate,
-    required TResult Function(int id) onDelete,
+    required TResult Function(WishEntity wishlistEntity) onDelete,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -29,7 +29,7 @@ mixin _$WishlistEvent {
     TResult? Function()? started,
     TResult? Function(WishEntity wishlistEntity)? onCreate,
     TResult? Function(WishEntity wishlistEntity)? onUpdate,
-    TResult? Function(int id)? onDelete,
+    TResult? Function(WishEntity wishlistEntity)? onDelete,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -37,7 +37,7 @@ mixin _$WishlistEvent {
     TResult Function()? started,
     TResult Function(WishEntity wishlistEntity)? onCreate,
     TResult Function(WishEntity wishlistEntity)? onUpdate,
-    TResult Function(int id)? onDelete,
+    TResult Function(WishEntity wishlistEntity)? onDelete,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -126,7 +126,7 @@ class _$_Started implements _Started {
     required TResult Function() started,
     required TResult Function(WishEntity wishlistEntity) onCreate,
     required TResult Function(WishEntity wishlistEntity) onUpdate,
-    required TResult Function(int id) onDelete,
+    required TResult Function(WishEntity wishlistEntity) onDelete,
   }) {
     return started();
   }
@@ -137,7 +137,7 @@ class _$_Started implements _Started {
     TResult? Function()? started,
     TResult? Function(WishEntity wishlistEntity)? onCreate,
     TResult? Function(WishEntity wishlistEntity)? onUpdate,
-    TResult? Function(int id)? onDelete,
+    TResult? Function(WishEntity wishlistEntity)? onDelete,
   }) {
     return started?.call();
   }
@@ -148,7 +148,7 @@ class _$_Started implements _Started {
     TResult Function()? started,
     TResult Function(WishEntity wishlistEntity)? onCreate,
     TResult Function(WishEntity wishlistEntity)? onUpdate,
-    TResult Function(int id)? onDelete,
+    TResult Function(WishEntity wishlistEntity)? onDelete,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -267,7 +267,7 @@ class _$_OnCreate implements _OnCreate {
     required TResult Function() started,
     required TResult Function(WishEntity wishlistEntity) onCreate,
     required TResult Function(WishEntity wishlistEntity) onUpdate,
-    required TResult Function(int id) onDelete,
+    required TResult Function(WishEntity wishlistEntity) onDelete,
   }) {
     return onCreate(wishlistEntity);
   }
@@ -278,7 +278,7 @@ class _$_OnCreate implements _OnCreate {
     TResult? Function()? started,
     TResult? Function(WishEntity wishlistEntity)? onCreate,
     TResult? Function(WishEntity wishlistEntity)? onUpdate,
-    TResult? Function(int id)? onDelete,
+    TResult? Function(WishEntity wishlistEntity)? onDelete,
   }) {
     return onCreate?.call(wishlistEntity);
   }
@@ -289,7 +289,7 @@ class _$_OnCreate implements _OnCreate {
     TResult Function()? started,
     TResult Function(WishEntity wishlistEntity)? onCreate,
     TResult Function(WishEntity wishlistEntity)? onUpdate,
-    TResult Function(int id)? onDelete,
+    TResult Function(WishEntity wishlistEntity)? onDelete,
     required TResult orElse(),
   }) {
     if (onCreate != null) {
@@ -413,7 +413,7 @@ class _$_OnUpdate implements _OnUpdate {
     required TResult Function() started,
     required TResult Function(WishEntity wishlistEntity) onCreate,
     required TResult Function(WishEntity wishlistEntity) onUpdate,
-    required TResult Function(int id) onDelete,
+    required TResult Function(WishEntity wishlistEntity) onDelete,
   }) {
     return onUpdate(wishlistEntity);
   }
@@ -424,7 +424,7 @@ class _$_OnUpdate implements _OnUpdate {
     TResult? Function()? started,
     TResult? Function(WishEntity wishlistEntity)? onCreate,
     TResult? Function(WishEntity wishlistEntity)? onUpdate,
-    TResult? Function(int id)? onDelete,
+    TResult? Function(WishEntity wishlistEntity)? onDelete,
   }) {
     return onUpdate?.call(wishlistEntity);
   }
@@ -435,7 +435,7 @@ class _$_OnUpdate implements _OnUpdate {
     TResult Function()? started,
     TResult Function(WishEntity wishlistEntity)? onCreate,
     TResult Function(WishEntity wishlistEntity)? onUpdate,
-    TResult Function(int id)? onDelete,
+    TResult Function(WishEntity wishlistEntity)? onDelete,
     required TResult orElse(),
   }) {
     if (onUpdate != null) {
@@ -497,7 +497,7 @@ abstract class _$$_OnDeleteCopyWith<$Res> {
           _$_OnDelete value, $Res Function(_$_OnDelete) then) =
       __$$_OnDeleteCopyWithImpl<$Res>;
   @useResult
-  $Res call({int id});
+  $Res call({WishEntity wishlistEntity});
 }
 
 /// @nodoc
@@ -511,13 +511,13 @@ class __$$_OnDeleteCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? wishlistEntity = null,
   }) {
     return _then(_$_OnDelete(
-      null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
+      null == wishlistEntity
+          ? _value.wishlistEntity
+          : wishlistEntity // ignore: cast_nullable_to_non_nullable
+              as WishEntity,
     ));
   }
 }
@@ -525,14 +525,14 @@ class __$$_OnDeleteCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_OnDelete implements _OnDelete {
-  const _$_OnDelete(this.id);
+  const _$_OnDelete(this.wishlistEntity);
 
   @override
-  final int id;
+  final WishEntity wishlistEntity;
 
   @override
   String toString() {
-    return 'WishlistEvent.onDelete(id: $id)';
+    return 'WishlistEvent.onDelete(wishlistEntity: $wishlistEntity)';
   }
 
   @override
@@ -540,11 +540,12 @@ class _$_OnDelete implements _OnDelete {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_OnDelete &&
-            (identical(other.id, id) || other.id == id));
+            (identical(other.wishlistEntity, wishlistEntity) ||
+                other.wishlistEntity == wishlistEntity));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id);
+  int get hashCode => Object.hash(runtimeType, wishlistEntity);
 
   @JsonKey(ignore: true)
   @override
@@ -558,9 +559,9 @@ class _$_OnDelete implements _OnDelete {
     required TResult Function() started,
     required TResult Function(WishEntity wishlistEntity) onCreate,
     required TResult Function(WishEntity wishlistEntity) onUpdate,
-    required TResult Function(int id) onDelete,
+    required TResult Function(WishEntity wishlistEntity) onDelete,
   }) {
-    return onDelete(id);
+    return onDelete(wishlistEntity);
   }
 
   @override
@@ -569,9 +570,9 @@ class _$_OnDelete implements _OnDelete {
     TResult? Function()? started,
     TResult? Function(WishEntity wishlistEntity)? onCreate,
     TResult? Function(WishEntity wishlistEntity)? onUpdate,
-    TResult? Function(int id)? onDelete,
+    TResult? Function(WishEntity wishlistEntity)? onDelete,
   }) {
-    return onDelete?.call(id);
+    return onDelete?.call(wishlistEntity);
   }
 
   @override
@@ -580,11 +581,11 @@ class _$_OnDelete implements _OnDelete {
     TResult Function()? started,
     TResult Function(WishEntity wishlistEntity)? onCreate,
     TResult Function(WishEntity wishlistEntity)? onUpdate,
-    TResult Function(int id)? onDelete,
+    TResult Function(WishEntity wishlistEntity)? onDelete,
     required TResult orElse(),
   }) {
     if (onDelete != null) {
-      return onDelete(id);
+      return onDelete(wishlistEntity);
     }
     return orElse();
   }
@@ -628,9 +629,9 @@ class _$_OnDelete implements _OnDelete {
 }
 
 abstract class _OnDelete implements WishlistEvent {
-  const factory _OnDelete(final int id) = _$_OnDelete;
+  const factory _OnDelete(final WishEntity wishlistEntity) = _$_OnDelete;
 
-  int get id;
+  WishEntity get wishlistEntity;
   @JsonKey(ignore: true)
   _$$_OnDeleteCopyWith<_$_OnDelete> get copyWith =>
       throw _privateConstructorUsedError;
@@ -642,7 +643,7 @@ mixin _$WishlistState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<WishEntity> wishlists) loaded,
+    required TResult Function(List<WishEntity> wishlist) loaded,
     required TResult Function(String? error) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -650,7 +651,7 @@ mixin _$WishlistState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<WishEntity> wishlists)? loaded,
+    TResult? Function(List<WishEntity> wishlist)? loaded,
     TResult? Function(String? error)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -658,7 +659,7 @@ mixin _$WishlistState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<WishEntity> wishlists)? loaded,
+    TResult Function(List<WishEntity> wishlist)? loaded,
     TResult Function(String? error)? error,
     required TResult orElse(),
   }) =>
@@ -747,7 +748,7 @@ class _$_Initial implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<WishEntity> wishlists) loaded,
+    required TResult Function(List<WishEntity> wishlist) loaded,
     required TResult Function(String? error) error,
   }) {
     return initial();
@@ -758,7 +759,7 @@ class _$_Initial implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<WishEntity> wishlists)? loaded,
+    TResult? Function(List<WishEntity> wishlist)? loaded,
     TResult? Function(String? error)? error,
   }) {
     return initial?.call();
@@ -769,7 +770,7 @@ class _$_Initial implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<WishEntity> wishlists)? loaded,
+    TResult Function(List<WishEntity> wishlist)? loaded,
     TResult Function(String? error)? error,
     required TResult orElse(),
   }) {
@@ -860,7 +861,7 @@ class _$_Loading implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<WishEntity> wishlists) loaded,
+    required TResult Function(List<WishEntity> wishlist) loaded,
     required TResult Function(String? error) error,
   }) {
     return loading();
@@ -871,7 +872,7 @@ class _$_Loading implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<WishEntity> wishlists)? loaded,
+    TResult? Function(List<WishEntity> wishlist)? loaded,
     TResult? Function(String? error)? error,
   }) {
     return loading?.call();
@@ -882,7 +883,7 @@ class _$_Loading implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<WishEntity> wishlists)? loaded,
+    TResult Function(List<WishEntity> wishlist)? loaded,
     TResult Function(String? error)? error,
     required TResult orElse(),
   }) {
@@ -939,7 +940,7 @@ abstract class _$$_LoadedCopyWith<$Res> {
   factory _$$_LoadedCopyWith(_$_Loaded value, $Res Function(_$_Loaded) then) =
       __$$_LoadedCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<WishEntity> wishlists});
+  $Res call({List<WishEntity> wishlist});
 }
 
 /// @nodoc
@@ -952,12 +953,12 @@ class __$$_LoadedCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? wishlists = null,
+    Object? wishlist = null,
   }) {
     return _then(_$_Loaded(
-      null == wishlists
-          ? _value._wishlists
-          : wishlists // ignore: cast_nullable_to_non_nullable
+      null == wishlist
+          ? _value._wishlist
+          : wishlist // ignore: cast_nullable_to_non_nullable
               as List<WishEntity>,
     ));
   }
@@ -966,19 +967,19 @@ class __$$_LoadedCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Loaded implements _Loaded {
-  const _$_Loaded(final List<WishEntity> wishlists) : _wishlists = wishlists;
+  const _$_Loaded(final List<WishEntity> wishlist) : _wishlist = wishlist;
 
-  final List<WishEntity> _wishlists;
+  final List<WishEntity> _wishlist;
   @override
-  List<WishEntity> get wishlists {
-    if (_wishlists is EqualUnmodifiableListView) return _wishlists;
+  List<WishEntity> get wishlist {
+    if (_wishlist is EqualUnmodifiableListView) return _wishlist;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_wishlists);
+    return EqualUnmodifiableListView(_wishlist);
   }
 
   @override
   String toString() {
-    return 'WishlistState.loaded(wishlists: $wishlists)';
+    return 'WishlistState.loaded(wishlist: $wishlist)';
   }
 
   @override
@@ -986,13 +987,12 @@ class _$_Loaded implements _Loaded {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Loaded &&
-            const DeepCollectionEquality()
-                .equals(other._wishlists, _wishlists));
+            const DeepCollectionEquality().equals(other._wishlist, _wishlist));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_wishlists));
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_wishlist));
 
   @JsonKey(ignore: true)
   @override
@@ -1005,10 +1005,10 @@ class _$_Loaded implements _Loaded {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<WishEntity> wishlists) loaded,
+    required TResult Function(List<WishEntity> wishlist) loaded,
     required TResult Function(String? error) error,
   }) {
-    return loaded(wishlists);
+    return loaded(wishlist);
   }
 
   @override
@@ -1016,10 +1016,10 @@ class _$_Loaded implements _Loaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<WishEntity> wishlists)? loaded,
+    TResult? Function(List<WishEntity> wishlist)? loaded,
     TResult? Function(String? error)? error,
   }) {
-    return loaded?.call(wishlists);
+    return loaded?.call(wishlist);
   }
 
   @override
@@ -1027,12 +1027,12 @@ class _$_Loaded implements _Loaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<WishEntity> wishlists)? loaded,
+    TResult Function(List<WishEntity> wishlist)? loaded,
     TResult Function(String? error)? error,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(wishlists);
+      return loaded(wishlist);
     }
     return orElse();
   }
@@ -1076,9 +1076,9 @@ class _$_Loaded implements _Loaded {
 }
 
 abstract class _Loaded implements WishlistState {
-  const factory _Loaded(final List<WishEntity> wishlists) = _$_Loaded;
+  const factory _Loaded(final List<WishEntity> wishlist) = _$_Loaded;
 
-  List<WishEntity> get wishlists;
+  List<WishEntity> get wishlist;
   @JsonKey(ignore: true)
   _$$_LoadedCopyWith<_$_Loaded> get copyWith =>
       throw _privateConstructorUsedError;
@@ -1148,7 +1148,7 @@ class _$_Error implements _Error {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<WishEntity> wishlists) loaded,
+    required TResult Function(List<WishEntity> wishlist) loaded,
     required TResult Function(String? error) error,
   }) {
     return error(this.error);
@@ -1159,7 +1159,7 @@ class _$_Error implements _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<WishEntity> wishlists)? loaded,
+    TResult? Function(List<WishEntity> wishlist)? loaded,
     TResult? Function(String? error)? error,
   }) {
     return error?.call(this.error);
@@ -1170,7 +1170,7 @@ class _$_Error implements _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<WishEntity> wishlists)? loaded,
+    TResult Function(List<WishEntity> wishlist)? loaded,
     TResult Function(String? error)? error,
     required TResult orElse(),
   }) {
