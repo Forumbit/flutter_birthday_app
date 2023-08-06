@@ -7,6 +7,5 @@ abstract class AppTheme {
       backgroundColor: Colors.white,
       foregroundColor: Colors.black,      
     ),
-
   );
 }
