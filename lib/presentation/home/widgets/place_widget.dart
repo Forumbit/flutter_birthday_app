@@ -1,4 +1,6 @@
-import 'package:birthday_app/common/app_images/app_images.dart';
+import 'package:birthday_app/common/app_colors.dart';
+import 'package:birthday_app/common/app_images.dart';
+import 'package:birthday_app/common/app_text_styles.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -13,20 +15,15 @@ class PlaceWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(
-          'Место',
-          style: TextStyle(
-            fontSize: 24.sp,
-            fontFamily: 'Yeseva One',
-          ),
-        ),
+        Text('Место', style: AppTextStyles.titleStyle),
         SizedBox(height: 16.h),
         Placeholder(
           fallbackHeight: 246.w,
           child: YandexMap(
             gestureRecognizers: {
               Factory<OneSequenceGestureRecognizer>(
-                  () => EagerGestureRecognizer())
+                () => EagerGestureRecognizer(),
+              )
             },
             mapObjects: [
               PlacemarkMapObject(
@@ -38,7 +35,7 @@ class PlaceWidget extends StatelessWidget {
                 text: const PlacemarkText(
                   text: 'Просто Лес',
                   style: PlacemarkTextStyle(
-                    color: Colors.lightGreen,
+                    color: AppColors.additionallyColor,
                     placement: TextStylePlacement.top,
                     size: 12,
                   ),
@@ -72,7 +69,7 @@ class PlaceWidget extends StatelessWidget {
         SizedBox(height: 4.h),
         Text(
           'Центральная ул., 84, хутор Седых',
-          style: TextStyle(fontSize: 14.sp),
+          style: AppTextStyles.contentStyle,
         ),
         SizedBox(height: 10.h),
         InkWell(
@@ -83,8 +80,7 @@ class PlaceWidget extends StatelessWidget {
           },
           child: Text(
             'Перейти на сайт места',
-            style: TextStyle(
-              fontSize: 14.sp,
+            style: AppTextStyles.contentStyle.copyWith(
               decoration: TextDecoration.underline,
             ),
           ),
