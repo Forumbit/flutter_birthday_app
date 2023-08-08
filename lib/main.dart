@@ -1,31 +1,43 @@
-import 'package:birthday_app/common/app_go_router/app_go_router.dart';
+import 'package:birthday_app/common/navigation/navigation_route.dart';
 import 'package:birthday_app/common/theme/app_themes.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:birthday_app/di/di_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:yandex_mapkit/yandex_mapkit.dart';
 
+abstract class AppFactory {
+  Future<void> initializeApp();
+  Widget makeApp();
+}
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Hive.initFlutter();
-  await Firebase.initializeApp();
-  AndroidYandexMap.useAndroidViewSurface = false;
-  runApp(const MyApp());
+  final appFactory = makeAppFactory();
+  await appFactory.initializeApp();
+  runApp(appFactory.makeApp());
+}
+
+abstract class MyAppNavigation {
+  Map<String, Widget Function(BuildContext)> get routes;
+  Route<Object> onGenerateRoute(RouteSettings settings);
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final MyAppNavigation myAppNavigation;
+  final ScreenFactory screenFactory;
+  const MyApp({
+    super.key,
+    required this.myAppNavigation,
+    required this.screenFactory,
+  });
 
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       builder: (BuildContext context, Widget? child) {
-        return MaterialApp.router(
+        return MaterialApp(
           restorationScopeId: 'app',
           theme: AppTheme.light,
-          routerConfig: AppGoRouter.router,
+          routes: myAppNavigation.routes,
+          onGenerateRoute: myAppNavigation.onGenerateRoute,
         );
       },
       designSize: const Size(375, 812),

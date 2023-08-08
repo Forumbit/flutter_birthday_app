@@ -1,10 +1,10 @@
 import 'package:birthday_app/bloc/menu_list/menu_list_cubit.dart';
+import 'package:birthday_app/common/navigation/navigation_route_names.dart';
 import 'package:birthday_app/common/app_text_styles.dart';
 import 'package:birthday_app/domain/entities/food_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 
 class MenuWidget extends StatelessWidget {
   const MenuWidget({super.key});
@@ -88,7 +88,8 @@ class _MenuItem extends StatelessWidget {
     ];
 
     return GestureDetector(
-      onTap: () => context.push('/menu/${food.id}'),
+      onTap: () => Navigator.of(context)
+          .pushNamed(NavigationRouteNames.menuDetail, arguments: food.id),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

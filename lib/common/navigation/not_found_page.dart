@@ -1,7 +1,6 @@
 import 'package:birthday_app/common/app_colors.dart';
 import 'package:birthday_app/common/widgets/custom_text_button.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class NotFoundWidget extends StatelessWidget {
   const NotFoundWidget({super.key});
@@ -16,7 +15,7 @@ class NotFoundWidget extends StatelessWidget {
             const Text('Что-то пошло не так'),
             CustomTextButton(
               text: 'Вернуться назад',
-              onPressed: () => context.pop(),
+              onPressed: () => Navigator.pop(context),
               buttonColor: AppColors.mainColor,
             )
           ],
