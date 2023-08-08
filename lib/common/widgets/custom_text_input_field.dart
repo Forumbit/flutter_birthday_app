@@ -16,10 +16,12 @@ class CustomTextInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      
       controller: controller,
       style: AppTextStyles.textInputContentStyle,
       cursorColor: AppColors.secondaryItemColor,
       decoration: InputDecoration(
+        
         labelText: labelText,
         labelStyle: const TextStyle(
           color: AppColors.secondaryItemColor,

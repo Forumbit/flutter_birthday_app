@@ -25,14 +25,17 @@ abstract class WidgetMethods {
     required BuildContext context,
     required Widget content,
   }) {
-    showModalBottomSheet<void>(
+    showModalBottomSheet(
       showDragHandle: true,
       isScrollControlled: true,
       context: context,
       barrierColor: Colors.black38,
       shape: RoundedRectangleBorder(
         side: const BorderSide(color: Colors.grey, width: 1),
-        borderRadius: BorderRadius.circular(12.r),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(12.r),
+          topRight: Radius.circular(12.r),
+        ),
       ),
       builder: (_) => content,
     );

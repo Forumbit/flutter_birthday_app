@@ -12,7 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BottomSheetContentWidget extends StatefulWidget {
-  const BottomSheetContentWidget({
+  const   BottomSheetContentWidget({
     super.key,
     this.guest,
   });
@@ -77,9 +77,10 @@ class _BottomSheetContentWidgetState extends State<BottomSheetContentWidget> {
       physics: const NeverScrollableScrollPhysics(),
       child: Padding(
         padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom,
-            left: 16.w,
-            right: 16.w),
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+          left: 16.w,
+          right: 16.w,
+        ),
         child: Column(
           children: [
             if (isError)

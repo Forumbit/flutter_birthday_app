@@ -18,69 +18,70 @@ class WishRepositoryImpl implements WishRepository {
   @override
   Future<void> create(WishEntity wishEntity) async {
     final isInternetAvailable = await ModelMethods.isInternetAvailable();
-    if (isInternetAvailable) {
-      final wishModel = WishMapper.fromEntity(wishEntity);
-      await wishRemoteDataSource.create(wishModel);
-    } else {
-      try {
+    try {
+      if (isInternetAvailable) {
+        final wishModel = WishMapper.fromEntity(wishEntity);
+        await wishRemoteDataSource.create(wishModel);
+      } else {
         final wishModel = WishMapper.fromEntity(wishEntity);
         await wishLocalDataSource.create(wishModel);
-      } catch (e) {
-        print(e);
       }
+    } catch (e) {
+      print(e);
     }
   }
 
   @override
   Future<void> delete(WishEntity wishEntity) async {
     final isInternetAvailable = await ModelMethods.isInternetAvailable();
-    if (isInternetAvailable) {
-      await wishRemoteDataSource.delete(wishEntity.documentId!);
-    } else {
-      try {
+    try {
+      if (isInternetAvailable) {
+        await wishRemoteDataSource.delete(wishEntity.documentId!);
+      } else {
         await wishLocalDataSource.delete(wishEntity.id!);
-      } catch (e) {
-        print(e);
       }
+    } catch (e) {
+      print(e);
     }
   }
 
   @override
   Future<List<WishEntity>> get() async {
     final isInternetAvailable = await ModelMethods.isInternetAvailable();
-    if (isInternetAvailable) {
-      final wishModels = await wishRemoteDataSource.get();
-      return wishModels
-          .map((wishModel) => WishMapper.toEntity(wishModel))
-          .toList();
-    } else {
-      try {
+    print('32424');
+    try {
+      if (isInternetAvailable) {
+        final wishModels = await wishRemoteDataSource.get();
+        return wishModels
+            .map((wishModel) => WishMapper.toEntity(wishModel))
+            .toList();
+      } else {
         final wishModels = await wishLocalDataSource.get();
         final wishEntities = wishModels
             .map((WishModel model) => WishMapper.toEntity(model))
             .toList();
         return wishEntities;
-      } catch (e) {
-        print(e);
-        throw Exception();
       }
+    } catch (e) {
+      print(e);
+      throw Exception();
     }
   }
 
   @override
   Future<void> update(WishEntity wishEntity) async {
     final isInternetAvailable = await ModelMethods.isInternetAvailable();
-    if (isInternetAvailable) {
-      final wishModel = WishMapper.fromEntity(wishEntity);
-      await wishRemoteDataSource.update(wishModel);
-    } else {
-      try {
+    try {
+      if (isInternetAvailable) {
+        final wishModel = WishMapper.fromEntity(wishEntity);
+        await wishRemoteDataSource.update(wishModel);
+      } else {
         print('dkjldsfj;');
         final wishModel = WishMapper.fromEntity(wishEntity);
         await wishLocalDataSource.update(wishModel);
-      } catch (e) {
-        print(e);
       }
+    } catch (e) {
+      print(e);
     }
   }
 }

@@ -64,38 +64,36 @@ class _WishBottomSheetContentWidgetState
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+        left: 16.w,
+        right: 16.w,
+      ),
       physics: const NeverScrollableScrollPhysics(),
-      child: Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-          left: 16.w,
-          right: 16.w,
-        ),
-        child: Column(
-          children: [
-            CustomTextInputField(
-              labelText: 'Название подарка',
-              controller: _controllers[WishTextControllerNames.name],
+      child: Column(
+        children: [
+          CustomTextInputField(
+            labelText: 'Название подарка',
+            controller: _controllers[WishTextControllerNames.name],
+          ),
+          SizedBox(height: 16.h),
+          CustomTextInputField(
+            labelText: 'Ссылка',
+            controller: _controllers[WishTextControllerNames.url],
+          ),
+          SizedBox(height: 50.h),
+          SizedBox(
+            width: 156.w,
+            child: CustomTextButton(
+              text: widget.wish == null
+                  ? 'Добавить подарок'
+                  : 'Изменить подарок',
+              onPressed: () => _onPressedWrite(context, widget.wish),
+              buttonColor: AppColors.additionallyColor,
             ),
-            SizedBox(height: 16.h),
-            CustomTextInputField(
-              labelText: 'Ссылка',
-              controller: _controllers[WishTextControllerNames.url],
-            ),
-            SizedBox(height: 50.h),
-            SizedBox(
-              width: 156.w,
-              child: CustomTextButton(
-                text: widget.wish == null
-                    ? 'Добавить подарок'
-                    : 'Изменить подарок',
-                onPressed: () => _onPressedWrite(context, widget.wish),
-                buttonColor: AppColors.additionallyColor,
-              ),
-            ),
-            SizedBox(height: 50.h),
-          ],
-        ),
+          ),
+          SizedBox(height: 50.h),
+        ],
       ),
     );
   }

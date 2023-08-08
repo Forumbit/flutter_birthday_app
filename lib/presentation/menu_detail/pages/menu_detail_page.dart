@@ -28,23 +28,25 @@ class MenuDetailPage extends StatelessWidget {
               fit: StackFit.expand,
               children: [
                 ImageWidget(image: food.image),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      SizedBox(height: 166.h),
-                      SizedBox(
-                        width: 145.w,
-                        child: Text(
-                          food.name,
-                          style: AppTextStyles.titleStyle,
+                SingleChildScrollView(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        SizedBox(height: 166.h),
+                        SizedBox(
+                          width: 145.w,
+                          child: Text(
+                            food.name,
+                            style: AppTextStyles.titleStyle,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 60.h),
-                      IngredientsWidget(food: food),
-                    ],
+                        SizedBox(height: 60.h),
+                        IngredientsWidget(food: food),
+                      ],
+                    ),
                   ),
                 ),
               ],

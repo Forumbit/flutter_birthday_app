@@ -40,11 +40,14 @@ class _IngredientItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Image.asset(
-          AppImages.food,
-          width: 24.w,
-          height: 24.w,
-          fit: BoxFit.cover,
+        ClipRRect(
+          borderRadius: BorderRadius.circular(100.r),
+          child: Image.asset(
+            AppImages.food,
+            width: 24.w,
+            height: 24.w,
+            fit: BoxFit.cover,
+          ),
         ),
         SizedBox(width: 17.w),
         Text(

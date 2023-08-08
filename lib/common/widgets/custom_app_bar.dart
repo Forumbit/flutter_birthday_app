@@ -1,7 +1,6 @@
 import 'package:birthday_app/common/app_colors.dart';
 import 'package:birthday_app/common/app_text_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   const CustomAppBar({
@@ -24,7 +23,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
   Widget build(BuildContext context) {
     return AppBar(
       leading: IconButton(
-        onPressed: () => context.pop(),
+        onPressed: () => Navigator.pop(context),
         icon: const Icon(
           Icons.chevron_left,
           color: AppColors.secondaryColor,
