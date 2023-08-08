@@ -1,18 +1,22 @@
-import 'package:birthday_app/config/hive_box_name.dart';
-import 'package:birthday_app/data/models/guest_model/guest_model.dart';
 import 'package:birthday_app/domain/entities/guest_entity.dart';
 import 'package:birthday_app/domain/enum/guests_list_filter_enum.dart';
 import 'package:birthday_app/domain/repository/guest_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:hive/hive.dart';
 
 part 'guest_list_event.dart';
 part 'guest_list_state.dart';
 part 'guest_list_bloc.freezed.dart';
 
+abstract class Database {
+  Future<void> compact();
+}
+
 class GuestsListBloc extends Bloc<GuestsListEvent, GuestsListState> {
-  GuestsListBloc({required this.guestRepository}) : super(const _Initial()) {
+  GuestsListBloc({
+    required this.guestRepository,
+    required this.database,
+  }) : super(const _Initial()) {
     on<GuestsListEvent>(
       (event, emit) async {
         await event.when(
@@ -28,17 +32,12 @@ class GuestsListBloc extends Bloc<GuestsListEvent, GuestsListState> {
   }
 
   //* =========== Variables ===========
-  late final Box<GuestModel> _box;
   var _filterBy = GuestsListFilterEnum.byID;
   final GuestRepository guestRepository;
+  final Database database;
 
   //* =========== Methods ===========
   Future<void> init(Emitter<GuestsListState> emit) async {
-    if (!Hive.isAdapterRegistered(0)) {
-      Hive.registerAdapter(GuestModelAdapter());
-    }
-    await Hive.openBox<GuestModel>(HiveBoxName.guestsBox);
-    _box = Hive.box<GuestModel>(HiveBoxName.guestsBox);
     getGuestsList(emit);
   }
 
@@ -98,8 +97,7 @@ class GuestsListBloc extends Bloc<GuestsListEvent, GuestsListState> {
   //* =========== Overrides ===========
   @override
   Future<void> close() async {
-    await _box.compact();
-    await _box.close();
+    database.compact();
     return super.close();
   }
 

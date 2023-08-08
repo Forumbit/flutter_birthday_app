@@ -5,10 +5,12 @@ import 'package:birthday_app/bloc/menu_detail/menu_detail_cubit.dart';
 import 'package:birthday_app/bloc/menu_list/menu_list_cubit.dart';
 import 'package:birthday_app/bloc/wishlist/wishlist_bloc.dart';
 import 'package:birthday_app/common/navigation/navigation_route.dart';
+import 'package:birthday_app/config/hive_box_name.dart';
 import 'package:birthday_app/data/datasources/food_remote_data_source.dart';
 import 'package:birthday_app/data/datasources/guest_local_data_source.dart';
 import 'package:birthday_app/data/datasources/wish_local_data_source.dart';
 import 'package:birthday_app/data/datasources/wish_remote_data_source.dart';
+import 'package:birthday_app/data/models/guest_model/guest_model.dart';
 import 'package:birthday_app/data/models/wish_model/wish_model.dart';
 import 'package:birthday_app/data/repository/food_repository.dart';
 import 'package:birthday_app/data/repository/guest_repository.dart';
@@ -49,8 +51,10 @@ class AppFactoryDefault implements AppFactory {
     AndroidYandexMap.useAndroidViewSurface = false;
     WidgetsFlutterBinding.ensureInitialized();
     await Hive.initFlutter();
+    Hive.registerAdapter(GuestModelAdapter());
+    await Hive.openBox<GuestModel>(HiveBoxName.guestsBox);
     await Firebase.initializeApp();
-    await _diContainer._getIsar();
+    await _diContainer.initialize();
   }
 }
 
@@ -58,20 +62,30 @@ class AppFactoryDefault implements AppFactory {
 class _DIContainer {
   final _dio = Dio();
   late final Isar _isar;
+  late final Box<GuestModel> _box;
+  late final FirebaseFirestore _firestore;
+
+  //* DI Container init
+  Future<void> initialize() async {
+    _box = Hive.box<GuestModel>(HiveBoxName.guestsBox);
+    _firestore = FirebaseFirestore.instance;
+    _isar = await Isar.open(
+      [WishModelSchema],
+      directory: (await _getDirectory()).path,
+    );
+  }
+
+  //* Database Configuration
+  Database _getDatabase() => _HiveBase(_box);
 
   //* App Configuration
-  ScreenFactory _makeScreenFactory() => ScreenFactoryDefault(this);
+  ScreenFactory _makeScreenFactory() => _ScreenFactoryDefault(this);
 
   MyAppNavigation _makeMyAppNavigation() =>
       MyAppNavigationImpl(_makeScreenFactory());
 
   Future<Directory> _getDirectory() async =>
       await getApplicationDocumentsDirectory();
-
-  Future<void> _getIsar() async => _isar = await Isar.open(
-        [WishModelSchema],
-        directory: (await _getDirectory()).path,
-      );
 
   //* Screen Configuration
   //* Menu Screen
@@ -83,7 +97,8 @@ class _DIContainer {
       );
 
   //* Guests List Screen
-  GuestLocalDataSource _getGuestLocalDataSource() => GuestLocalDataSourceImpl();
+  GuestLocalDataSource _getGuestLocalDataSource() =>
+      GuestLocalDataSourceImpl(box: _box);
 
   GuestRepository _getGuestRepository() =>
       GuestRepositoryImpl(guestLocalDataSource: _getGuestLocalDataSource());
@@ -93,7 +108,7 @@ class _DIContainer {
       WishLocalDataSourceImpl(isar: _isar);
 
   WishRemoteDataSource _getWishRemoteDataSource() =>
-      WishRemoteDataSourceImpl(FirebaseFirestore.instance);
+      WishRemoteDataSourceImpl(_firestore);
 
   WishRepository _getWishRepository() => WishRepositoryImpl(
         wishLocalDataSource: _getWishLocalDataSource(),
@@ -103,10 +118,10 @@ class _DIContainer {
 }
 
 //* ============= Screen Configuration =============
-class ScreenFactoryDefault implements ScreenFactory {
+class _ScreenFactoryDefault implements ScreenFactory {
   final _DIContainer _diContainer;
 
-  ScreenFactoryDefault(this._diContainer);
+  _ScreenFactoryDefault(this._diContainer);
 
   @override
   Widget makeHome() => BlocProvider<MenuListCubit>(
@@ -120,6 +135,7 @@ class ScreenFactoryDefault implements ScreenFactory {
   Widget makeGuestsList() => BlocProvider(
         create: (BuildContext context) => GuestsListBloc(
           guestRepository: _diContainer._getGuestRepository(),
+          database: _diContainer._getDatabase(),
         )..add(const GuestsListEvent.started()),
         child: const QuestsListPage(),
       );
@@ -139,4 +155,15 @@ class ScreenFactoryDefault implements ScreenFactory {
         )..loadFood(id),
         child: const MenuDetailPage(),
       );
+}
+
+//* Database Configuration
+class _HiveBase<T> implements Database {
+  final Box<T> box;
+
+  _HiveBase(this.box);
+  @override
+  Future<void> compact() async {
+    await box.compact();
+  }
 }
