@@ -13,16 +13,18 @@ part 'guest_list_bloc.freezed.dart';
 
 class GuestsListBloc extends Bloc<GuestsListEvent, GuestsListState> {
   GuestsListBloc({required this.guestRepository}) : super(const _Initial()) {
-    on<GuestsListEvent>((event, emit) async {
-      await event.when(
-        started: () async => init(emit),
-        onCreate: (GuestEntity guest) => createGuest(guest, emit),
-        onUpdate: (GuestEntity guest) => updateGuest(guest, emit),
-        onDelete: (int id) => deleteGuest(id, emit),
-        onFilter: (GuestsListFilterEnum filterBy) =>
-            filterGuest(filterBy, emit),
-      );
-    });
+    on<GuestsListEvent>(
+      (event, emit) async {
+        await event.when(
+          started: () async => init(emit),
+          onCreate: (GuestEntity guest) => createGuest(guest, emit),
+          onUpdate: (GuestEntity guest) => updateGuest(guest, emit),
+          onDelete: (int id) => deleteGuest(id, emit),
+          onFilter: (GuestsListFilterEnum filterBy) =>
+              filterGuest(filterBy, emit),
+        );
+      },
+    );
   }
 
   //* =========== Variables ===========
