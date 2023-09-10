@@ -18,6 +18,7 @@ class QuestsListPage extends StatelessWidget {
     return Scaffold(
       appBar: const CustomAppBar(title: 'Список гостей'),
       body: Stack(
+        fit: StackFit.expand,
         children: [
           BlocBuilder<GuestsListBloc, GuestsListState>(
             builder: (context, state) {
@@ -53,27 +54,23 @@ class QuestsListPage extends StatelessWidget {
               );
             },
           ),
-          Positioned(
-            bottom: 32,
-            right: 32,
-            child: IconButton(
-              padding: EdgeInsets.zero,
-              iconSize: 84.r,
-              onPressed: () {
-                WidgetMethods.showModalBottomSheetMethod(
-                  context: context,
-                  content: BlocProvider.value(
-                    value: context.read<GuestsListBloc>(),
-                    child: const BottomSheetContentWidget(),
-                  ),
-                );
-              },
-              icon: Image.asset(
-                AppImages.add,
-              ),
-            ),
-          ),
         ],
+      ),
+      floatingActionButton: IconButton(
+        padding: EdgeInsets.zero,
+        iconSize: 84.r,
+        onPressed: () {
+          WidgetMethods.showModalBottomSheetMethod(
+            context: context,
+            content: BlocProvider.value(
+              value: context.read<GuestsListBloc>(),
+              child: const BottomSheetContentWidget(),
+            ),
+          );
+        },
+        icon: Image.asset(
+          AppImages.add,
+        ),
       ),
     );
   }

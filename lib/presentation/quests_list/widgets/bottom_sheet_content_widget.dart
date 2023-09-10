@@ -12,7 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BottomSheetContentWidget extends StatefulWidget {
-  const   BottomSheetContentWidget({
+  const BottomSheetContentWidget({
     super.key,
     this.guest,
   });
@@ -74,58 +74,60 @@ class _BottomSheetContentWidgetState extends State<BottomSheetContentWidget> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      physics: const NeverScrollableScrollPhysics(),
       child: Padding(
         padding: EdgeInsets.only(
           bottom: MediaQuery.of(context).viewInsets.bottom,
           left: 16.w,
           right: 16.w,
         ),
-        child: Column(
-          children: [
-            if (isError)
-              Text(
-                'Заполните все поля!',
-                style: AppTextStyles.subTitleStyle.copyWith(
-                  color: Colors.redAccent,
+        child: SizedBox(
+          width: double.infinity,
+          child: Column(
+            children: [
+              if (isError)
+                Text(
+                  'Заполните все поля!',
+                  style: AppTextStyles.subTitleStyle.copyWith(
+                    color: Colors.redAccent,
+                  ),
+                ),
+              SizedBox(height: 5.h),
+              CustomTextInputField(
+                labelText: 'Имя',
+                controller: _controllers[GuestTextControllerNames.firstName],
+              ),
+              SizedBox(height: 16.h),
+              CustomTextInputField(
+                labelText: 'Фамилия',
+                controller: _controllers[GuestTextControllerNames.lastName],
+              ),
+              SizedBox(height: 16.h),
+              TextDateTimeInputFieldWidget(
+                restorationId: 'main',
+                controller: _controllers[GuestTextControllerNames.age],
+              ),
+              SizedBox(height: 16.h),
+              CustomTextInputField(
+                labelText: 'Телефон',
+                controller: _controllers[GuestTextControllerNames.phone],
+              ),
+              SizedBox(height: 16.h),
+              CustomTextInputField(
+                labelText: 'Профессия',
+                controller: _controllers[GuestTextControllerNames.profession],
+              ),
+              SizedBox(height: 50.h),
+              SizedBox(
+                width: 156.w,
+                child: CustomTextButton(
+                  text: 'Записать',
+                  onPressed: () => _onPressedWrite(context),
+                  buttonColor: AppColors.additionallyColor,
                 ),
               ),
-            SizedBox(height: 5.h),
-            CustomTextInputField(
-              labelText: 'Имя',
-              controller: _controllers[GuestTextControllerNames.firstName],
-            ),
-            SizedBox(height: 16.h),
-            CustomTextInputField(
-              labelText: 'Фамилия',
-              controller: _controllers[GuestTextControllerNames.lastName],
-            ),
-            SizedBox(height: 16.h),
-            TextDateTimeInputFieldWidget(
-              restorationId: 'main',
-              controller: _controllers[GuestTextControllerNames.age],
-            ),
-            SizedBox(height: 16.h),
-            CustomTextInputField(
-              labelText: 'Телефон',
-              controller: _controllers[GuestTextControllerNames.phone],
-            ),
-            SizedBox(height: 16.h),
-            CustomTextInputField(
-              labelText: 'Профессия',
-              controller: _controllers[GuestTextControllerNames.profession],
-            ),
-            SizedBox(height: 50.h),
-            SizedBox(
-              width: 156.w,
-              child: CustomTextButton(
-                text: 'Записать',
-                onPressed: () => _onPressedWrite(context),
-                buttonColor: AppColors.additionallyColor,
-              ),
-            ),
-            SizedBox(height: 50.h),
-          ],
+              SizedBox(height: 50.h),
+            ],
+          ),
         ),
       ),
     );
